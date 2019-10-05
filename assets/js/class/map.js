@@ -1,5 +1,7 @@
 import {
-    ctx
+    ctx,
+    canvas,
+    Wall_Texture
 } from "../game.js";
 import Player from "./player.js";
 import {
@@ -35,25 +37,50 @@ export default class Map {
             const row = this.map[y];
             for (let x = 0; x < row.length; x++) {
                 const cell = row[x];
+                if (cell != node) {
+                    const canvasX = x * cellsize;
+                    const canvasY = y * cellsize;
+                    const nodeCanvasX = (node.x * cellsize);
+                    const nodeCanvasY = (node.y * cellsize);
 
-                const canvasX = x * cellsize;
-                const canvasY = y * cellsize;
-                const nodeCanvasX = (node.x * cellsize);
-                const nodeCanvasY = (node.y * cellsize);
+                    if (!(cell instanceof PlayableArea)) {
+                        //could add instaceof circle rects for now
 
-                if (!(cell instanceof PlayableArea)) {
-                    //could add instaceof circle rects for now
-
-                    //if needs to prove nothing is residing indise
-                    if (nodeCanvasX < canvasX + cellsize &&
-                        nodeCanvasX + node.width * cellsize > canvasX &&
-                        nodeCanvasY < canvasY + cellsize &&
-                        nodeCanvasY + node.height * cellsize > canvasY) {
-                        collisions.push(cell);
+                        //if needs to prove nothing is residing indise
+                        if (nodeCanvasX < canvasX + cellsize &&
+                            nodeCanvasX + (node.width * cellsize) > canvasX &&
+                            nodeCanvasY < canvasY + cellsize &&
+                            nodeCanvasY + (node.height * cellsize) > canvasY) {
+                            collisions.push(cell);
+                        }
                     }
                 }
             }
+            this.entities.forEach(e => {
+                const canvasX = e.x * cellsize;
+                const canvasY = e.y * cellsize;
+                const nodeCanvasX = (node.x * cellsize);
+                const nodeCanvasY = (node.y * cellsize);
+                //if needs to prove nothing is residing indise
+                //this is broken fires loads of times?
+                if (!(e.constructor == node.constructor)) {
+                    if (nodeCanvasX < canvasX + cellsize &&
+                        nodeCanvasX + (node.width * cellsize) > canvasX &&
+                        nodeCanvasY < canvasY + cellsize &&
+                        nodeCanvasY + (node.height * cellsize) > canvasY) {
+                        console.log(node);
+                        if (node.hasOwnProperty("sender")) {
+                            if (node.sender.constructor != e.constructor) {
+                                collisions.push(e);
+                            }
+                        } else {
+                            collisions.push(e);
+                        }
+                    }
+                }
+            });
         }
+
         return collisions;
     }
     draw() {
@@ -82,6 +109,9 @@ export default class Map {
                         this.entities.push(cell);
                     }
                 }
+                if (cell instanceof Wall) {
+                    ctx.drawImage(Wall_Texture, canvasX, canvasY, cellsize, cellsize);
+                }
             }
         }
         let newEntities = [];
@@ -103,9 +133,11 @@ export default class Map {
                         if (c instanceof Wall) {
                             //make projectile die
                             //add explosion entity in its place
-                        } else {
+                        } else if (c instanceof Player) {
+                            c.damage(e.damage);
+                        } else if (c instanceof Boss) {} else {
                             newEntities.push(e);
-                            e.draw(cellsize * e.x, cellsize * e.y);
+                            e.draw(e.x * cellsize, e.y * cellsize);
                         }
                     });
                 } else {

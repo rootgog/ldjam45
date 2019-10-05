@@ -6,6 +6,7 @@ import {
     Wall
 } from "../class/mapEntities.js";
 import Boss from "../class/boss.js";
+import HUD from "../class/hud.js";
 
 let p = new Player({
     height: 1.8,
@@ -18,6 +19,8 @@ let b = new Boss({
     width: 2,
     health: 1000
 });
+
+let hud = new HUD();
 
 //s for space - Jack
 let s = new PlayableArea();
@@ -51,6 +54,7 @@ export default class Game extends View {
     static draw() {
         super.draw();
         level.draw();
+        hud.draw();
     }
 }
 

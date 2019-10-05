@@ -11,6 +11,11 @@ let mouse = {
     x: undefined,
     y: undefined
 }
+
+var Wall_Texture = new Image();
+Wall_Texture.src = "./assets/textures/Wall_Texture.png";
+
+
 document.addEventListener('mousemove', e => {
     var rect = canvas.getBoundingClientRect();
     mouse.x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
@@ -44,5 +49,6 @@ export {
     deltaTime,
     gameloop,
     mouse,
-    view
+    view,
+    Wall_Texture
 };

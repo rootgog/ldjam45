@@ -23,9 +23,9 @@ export default class Boss extends PlayableArea {
         this.health = health;
         this.x = undefined;
         this.y = undefined;
-        this.weapon = new Gun();
+        this.weapon = new Gun(0.3);
         this.weapon.speed = 8;
-        setInterval(() => this.attack(), 250);
+        setInterval(() => this.attack(), 500);
     }
     draw(x, y) {
         let cellsize = Math.floor(ctx.canvas.width / level.width);
@@ -44,6 +44,6 @@ export default class Boss extends PlayableArea {
         }
         let a2m = Math.atan2((this.y * cellsize) - player.y * cellsize, (this.x * cellsize) - player.x * cellsize) * 180 / Math.PI;
         //this.speed needs to be projectile speed
-        this.weapon.fire(this.x, this.y, a2m);
+        this.weapon.fire(this.x, this.y, a2m, this);
     }
 }

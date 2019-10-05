@@ -21,11 +21,15 @@ export class Projectile {
         x,
         y,
         dir,
-        speed
+        speed,
+        sender,
+        damage
     }) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.sender = sender;
+        this.damage = damage;
         this.speed = {
             x: speed * Math.cos(dir * Math.PI / 180),
             y: speed * Math.sin(dir * Math.PI / 180)
@@ -50,15 +54,18 @@ export class Projectile {
 }
 
 export class Gun {
-    constructor() {
+    constructor(damage) {
         this.speed = 5;
+        this.damage = damage;
     }
-    fire(x, y, dir) {
+    fire(x, y, dir, sender) {
         level.entities.push(new Projectile({
             x,
             y,
             dir,
-            speed: this.speed
+            speed: this.speed,
+            sender,
+            damage: this.damage
         }));
     }
 }

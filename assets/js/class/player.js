@@ -22,9 +22,10 @@ export default class Player extends PlayableArea {
         this.height = height;
         this.width = width;
         this.health = health;
+        this.currentHealth = health;
         this.x = undefined;
         this.y = undefined;
-        this.speed = 5;
+        this.speed = 6.5;
         this.up = 0;
         this.right = 0;
         this.weapon = new Gun();
@@ -40,8 +41,15 @@ export default class Player extends PlayableArea {
         }
         let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
         //this.speed needs to be projectile speed
-        this.weapon.fire(this.x + 0.6, this.y + 0.9, a2m);
+        this.weapon.fire(this.x + 0.6, this.y + 0.9, a2m, this);
 
+    }
+    damage(damage) {
+        this.currentHealth -= damage;
+        if (this.currentHealth <= 0) {
+            this.currentHealth = 0;
+            console.log("YOU DIED NOOB");
+        }
     }
     keyDown(e) {
         switch (e.key.toLowerCase()) {
