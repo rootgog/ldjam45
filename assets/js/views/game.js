@@ -5,10 +5,18 @@ import {
     PlayableArea,
     Wall
 } from "../class/mapEntities.js";
+import Boss from "../class/boss.js";
 
 let p = new Player({
-    height: 60,
-    width: 50
+    height: 1.8,
+    width: 1.2,
+    health: 100
+});
+
+let b = new Boss({
+    height: 2,
+    width: 2,
+    health: 1000
 });
 
 //s for space - Jack
@@ -18,13 +26,26 @@ let w = new Wall();
 
 
 let level = new Map([
-    [s, s, s, s],
-    [w, s, s, w],
-    [w, s, s, s],
-    [s, p, s, w],
-    [w, s, s, s],
-    [w, s, s, w]
+    [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, w, w, w, w, w, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, p, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, b, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+    [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]
 ]);
+
+p.speed = level.height * 0.25;
 
 export default class Game extends View {
     static draw() {

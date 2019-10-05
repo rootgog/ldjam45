@@ -36,18 +36,22 @@ export class Projectile {
         this.y -= this.speed.y * deltaTime;
     }
     draw(x, y) {
-        this.width = 20;
-        this.height = 20;
-        ctx.fillStyle = "green";
+        this.width = 0.15;
+        this.height = 0.15;
+        ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.rect(x, y, this.width, this.height);
+        let cellsize = Math.floor(ctx.canvas.width / level.width);
+        if (Math.floor(ctx.canvas.height / level.height) < Math.floor(ctx.canvas.width / level.width)) {
+            cellsize = Math.floor(ctx.canvas.height / level.height);
+        }
+        ctx.rect(x, y, this.width * cellsize, this.height * cellsize);
         ctx.fill();
     }
 }
 
 export class Gun {
     constructor() {
-        this.speed = 1;
+        this.speed = 5;
     }
     fire(x, y, dir) {
         level.entities.push(new Projectile({
@@ -55,6 +59,6 @@ export class Gun {
             y,
             dir,
             speed: this.speed
-        }))
+        }));
     }
 }

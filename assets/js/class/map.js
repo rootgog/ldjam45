@@ -7,6 +7,7 @@ import {
     Projectile,
     Wall
 } from "./mapEntities.js";
+import Boss from "./boss.js";
 
 class Cell {
     constructor(x, y, value) {
@@ -45,9 +46,9 @@ export default class Map {
 
                     //if needs to prove nothing is residing indise
                     if (nodeCanvasX < canvasX + cellsize &&
-                        nodeCanvasX + node.width > canvasX &&
+                        nodeCanvasX + node.width * cellsize > canvasX &&
                         nodeCanvasY < canvasY + cellsize &&
-                        nodeCanvasY + node.height > canvasY) {
+                        nodeCanvasY + node.height * cellsize > canvasY) {
                         collisions.push(cell);
                     }
                 }
@@ -74,7 +75,7 @@ export default class Map {
                     ctx.rect(canvasX, canvasY, cellsize, cellsize);
                     ctx.fill();
                 }
-                if (cell instanceof Player) {
+                if (cell instanceof Player || cell instanceof Boss) {
                     if (cell.x == undefined && cell.y == undefined) {
                         cell.x = x + 0.5; //could do with work
                         cell.y = y + 0.5;
@@ -87,6 +88,10 @@ export default class Map {
         this.entities.forEach(e => {
             if (e instanceof Player) {
                 e.updatePosition();
+                e.draw(cellsize * e.x, cellsize * e.y);
+                newEntities.push(e);
+            }
+            if (e instanceof Boss) {
                 e.draw(cellsize * e.x, cellsize * e.y);
                 newEntities.push(e);
             }
