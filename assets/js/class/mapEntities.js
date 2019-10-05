@@ -36,10 +36,6 @@ export class Projectile {
         this.y -= this.speed.y * deltaTime;
     }
     draw(x, y) {
-        console.log({
-            x,
-            y
-        });
         this.width = 20;
         this.height = 20;
         ctx.fillStyle = "green";

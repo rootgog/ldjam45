@@ -4,7 +4,8 @@ import {
 import Player from "./player.js";
 import {
     PlayableArea,
-    Projectile
+    Projectile,
+    Wall
 } from "./mapEntities.js";
 
 class Cell {
@@ -82,15 +83,32 @@ export default class Map {
                 }
             }
         }
+        let newEntities = [];
         this.entities.forEach(e => {
             if (e instanceof Player) {
                 e.updatePosition();
                 e.draw(cellsize * e.x, cellsize * e.y);
+                newEntities.push(e);
             }
             if (e instanceof Projectile) {
                 e.updatePosition();
-                e.draw(cellsize * e.x, cellsize * e.y);
+                let collisions = this.collisions(e);
+                if (collisions.length > 0) {
+                    collisions.forEach(c => {
+                        if (c instanceof Wall) {
+                            //make projectile die
+                            //add explosion entity in its place
+                        } else {
+                            newEntities.push(e);
+                            e.draw(cellsize * e.x, cellsize * e.y);
+                        }
+                    });
+                } else {
+                    newEntities.push(e);
+                    e.draw(cellsize * e.x, cellsize * e.y);
+                }
             }
-        })
+        });
+        this.entities = newEntities;
     }
 }
