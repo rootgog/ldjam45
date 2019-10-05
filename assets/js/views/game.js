@@ -7,8 +7,8 @@ import {
 } from "../class/mapEntities.js";
 
 let p = new Player({
-    height: 20,
-    width: 20
+    height: 60,
+    width: 50
 });
 
 //s for space - Jack
@@ -18,10 +18,10 @@ let w = new Wall();
 
 
 let level = new Map([
-    [s, s, p, s],
+    [s, s, s, s],
     [w, s, s, w],
     [w, s, s, s],
-    [s, s, s, w],
+    [s, p, s, w],
     [w, s, s, s],
     [w, s, s, w]
 ]);
@@ -34,5 +34,6 @@ export default class Game extends View {
 }
 
 export {
-    p as player
+    p as player,
+    level
 }

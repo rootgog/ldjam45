@@ -6,12 +6,52 @@ import {
     PlayableArea
 } from "./mapEntities.js";
 
+class Cell {
+    constructor(x, y, value) {
+        this.x = x;
+        this.y = y;
+        this.value = value;
+    }
+}
+
 export default class Map {
     constructor(map) {
         this.map = map;
         this.width = map[0].length;
         this.height = map.length;
         this.entities = [];
+    }
+    collisions(node) {
+        let cellsize = Math.floor(ctx.canvas.width / this.width);
+        if (Math.floor(ctx.canvas.height / this.height) < Math.floor(ctx.canvas.width / this.width)) {
+            cellsize = Math.floor(ctx.canvas.height / this.height);
+        }
+        //return array of collisions with node
+        let collisions = [];
+        for (let y = 0; y < this.map.length; y++) {
+            const row = this.map[y];
+            for (let x = 0; x < row.length; x++) {
+                const cell = row[x];
+
+                const canvasX = x * cellsize;
+                const canvasY = y * cellsize;
+                const nodeCanvasX = (node.x * cellsize) - node.width / 2;
+                const nodeCanvasY = (node.y * cellsize) - node.height / 2;
+
+                if (!(cell instanceof PlayableArea)) {
+                    //could add instaceof circle rects for now
+
+                    //if needs to prove nothing is residing indise
+                    if (nodeCanvasX < canvasX + cellsize &&
+                        nodeCanvasX + node.width > canvasX &&
+                        nodeCanvasY < canvasY + cellsize &&
+                        nodeCanvasY + node.height > canvasY) {
+                        collisions.push(cell);
+                    }
+                }
+            }
+        }
+        return collisions;
     }
     draw() {
         let cellsize = Math.floor(ctx.canvas.width / this.width);

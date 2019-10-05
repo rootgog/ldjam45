@@ -3,8 +3,12 @@ import {
     deltaTime
 } from "../game.js";
 import {
-    PlayableArea
+    PlayableArea,
+    Wall
 } from "./mapEntities.js";
+import {
+    level
+} from "../views/game.js";
 
 export default class Player extends PlayableArea {
     constructor({
@@ -63,8 +67,18 @@ export default class Player extends PlayableArea {
         }
     }
     updatePosition() {
+        let x = this.x;
+        let y = this.y;
         this.x += this.right * deltaTime;
         this.y += this.up * deltaTime;
+        let collisions = level.collisions(this);
+        collisions.forEach(c => {
+            if (c instanceof Wall) {
+                this.x = x;
+                this.y = y;
+            }
+        });
+
     }
     draw(x, y) {
         ctx.fillStyle = "black";
