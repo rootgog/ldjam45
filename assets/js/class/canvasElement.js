@@ -33,28 +33,6 @@ class Rect extends canvasElement {
     }
 }
 
-export class Player extends Rect {
-    constructor({
-        x,
-        y,
-        height,
-        width
-    }) {
-        super({
-            x,
-            y,
-            height,
-            width
-        });
-    }
-    draw() {
-        ctx.fillStyle = "black";
-        ctx.beginPath();
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.fill();
-    }
-}
-
 /* only needed if we end up doing main menu
 
 export class Button extends Rect {

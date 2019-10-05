@@ -1,4 +1,3 @@
-import MainMenu from "./views/mainmenu.js";
 import Game from "./views/game.js";
 
 //canvas setup
