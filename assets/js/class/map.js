@@ -56,30 +56,30 @@ export default class Map {
                     }
                 }
             }
-            this.entities.forEach(e => {
-                const canvasX = e.x * cellsize;
-                const canvasY = e.y * cellsize;
-                const nodeCanvasX = (node.x * cellsize);
-                const nodeCanvasY = (node.y * cellsize);
-                //if needs to prove nothing is residing indise
-                //this is broken fires loads of times?
-                if (!(e.constructor == node.constructor)) {
-                    if (nodeCanvasX < canvasX + cellsize &&
-                        nodeCanvasX + (node.width * cellsize) > canvasX &&
-                        nodeCanvasY < canvasY + cellsize &&
-                        nodeCanvasY + (node.height * cellsize) > canvasY) {
-                        console.log(node);
-                        if (node.hasOwnProperty("sender")) {
-                            if (node.sender.constructor != e.constructor) {
-                                collisions.push(e);
-                            }
-                        } else {
+        }
+        this.entities.forEach(e => {
+            const canvasX = e.x * cellsize;
+            const canvasY = e.y * cellsize;
+            const nodeCanvasX = (node.x * cellsize);
+            const nodeCanvasY = (node.y * cellsize);
+            //if needs to prove nothing is residing indise
+            //this is broken fires loads of times?
+            if (!(e.constructor == node.constructor)) {
+                if (nodeCanvasX < canvasX + cellsize &&
+                    nodeCanvasX + (node.width * cellsize) > canvasX &&
+                    nodeCanvasY < canvasY + cellsize &&
+                    nodeCanvasY + (node.height * cellsize) > canvasY) {
+                    //console.log(node);
+                    if (node.hasOwnProperty("sender")) {
+                        if (node.sender.constructor != e.constructor) {
                             collisions.push(e);
                         }
+                    } else {
+                        collisions.push(e);
                     }
                 }
-            });
-        }
+            }
+        });
 
         return collisions;
     }
@@ -135,7 +135,10 @@ export default class Map {
                             //add explosion entity in its place
                         } else if (c instanceof Player) {
                             c.damage(e.damage);
-                        } else if (c instanceof Boss) {} else {
+                        } else if (c instanceof Boss) {
+                            console.log(c.currentHealth);
+                            c.damage(e.damage);
+                        } else {
                             newEntities.push(e);
                             e.draw(e.x * cellsize, e.y * cellsize);
                         }

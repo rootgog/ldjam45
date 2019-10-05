@@ -56,7 +56,7 @@ export class Projectile {
 export class Gun {
     constructor(damage) {
         this.speed = 5;
-        this.damage = damage;
+        this.damage = damage ? damage : 1;
     }
     fire(x, y, dir, sender) {
         level.entities.push(new Projectile({

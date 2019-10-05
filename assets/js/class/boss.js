@@ -21,9 +21,10 @@ export default class Boss extends PlayableArea {
         this.height = height;
         this.width = width;
         this.health = health;
+        this.currentHealth = health;
         this.x = undefined;
         this.y = undefined;
-        this.weapon = new Gun(0.3);
+        this.weapon = new Gun(5);
         this.weapon.speed = 8;
         setInterval(() => this.attack(), 500);
     }
@@ -45,5 +46,12 @@ export default class Boss extends PlayableArea {
         let a2m = Math.atan2((this.y * cellsize) - player.y * cellsize, (this.x * cellsize) - player.x * cellsize) * 180 / Math.PI;
         //this.speed needs to be projectile speed
         this.weapon.fire(this.x, this.y, a2m, this);
+    }
+    damage(damage) {
+        this.currentHealth -= damage;
+        if (this.currentHealth <= 0) {
+            this.currentHealth = 0;
+            console.log("boss died");
+        }
     }
 }

@@ -28,7 +28,7 @@ export default class Player extends PlayableArea {
         this.speed = 6.5;
         this.up = 0;
         this.right = 0;
-        this.weapon = new Gun();
+        this.weapon = new Gun(50);
         document.addEventListener("keydown", this.keyDown.bind(this));
         document.addEventListener("keyup", this.keyUp.bind(this));
         document.addEventListener("click", this.click.bind(this));
