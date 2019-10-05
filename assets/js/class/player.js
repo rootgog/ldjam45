@@ -1,10 +1,12 @@
 import {
     ctx,
-    deltaTime
+    deltaTime,
+    mouse
 } from "../game.js";
 import {
     PlayableArea,
-    Wall
+    Wall,
+    Gun
 } from "./mapEntities.js";
 import {
     level
@@ -23,8 +25,20 @@ export default class Player extends PlayableArea {
         this.speed = 1;
         this.up = 0;
         this.right = 0;
+        this.weapon = new Gun();
         document.addEventListener("keydown", this.keyDown.bind(this));
         document.addEventListener("keyup", this.keyUp.bind(this));
+        document.addEventListener("click", this.click.bind(this));
+    }
+    click(e) {
+        let cellsize = Math.floor(ctx.canvas.width / level.width);
+        if (Math.floor(ctx.canvas.height / level.height) < Math.floor(ctx.canvas.width / level.width)) {
+            cellsize = Math.floor(ctx.canvas.height / level.height);
+        }
+        let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
+        //this.speed needs to be projectile speed
+        this.weapon.fire(this.x, this.y, a2m);
+
     }
     keyDown(e) {
         switch (e.key.toLowerCase()) {
@@ -83,7 +97,7 @@ export default class Player extends PlayableArea {
     draw(x, y) {
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.rect(x - this.width / 2, y - this.height / 2, this.width, this.height);
+        ctx.rect(x, y, this.width, this.height);
         ctx.fill();
     }
 }

@@ -3,7 +3,8 @@ import {
 } from "../game.js";
 import Player from "./player.js";
 import {
-    PlayableArea
+    PlayableArea,
+    Projectile
 } from "./mapEntities.js";
 
 class Cell {
@@ -35,8 +36,8 @@ export default class Map {
 
                 const canvasX = x * cellsize;
                 const canvasY = y * cellsize;
-                const nodeCanvasX = (node.x * cellsize) - node.width / 2;
-                const nodeCanvasY = (node.y * cellsize) - node.height / 2;
+                const nodeCanvasX = (node.x * cellsize);
+                const nodeCanvasY = (node.y * cellsize);
 
                 if (!(cell instanceof PlayableArea)) {
                     //could add instaceof circle rects for now
@@ -83,6 +84,10 @@ export default class Map {
         }
         this.entities.forEach(e => {
             if (e instanceof Player) {
+                e.updatePosition();
+                e.draw(cellsize * e.x, cellsize * e.y);
+            }
+            if (e instanceof Projectile) {
                 e.updatePosition();
                 e.draw(cellsize * e.x, cellsize * e.y);
             }
