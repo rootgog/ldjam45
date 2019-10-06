@@ -6,7 +6,8 @@ import Player from "./player.js";
 import {
     PlayableArea,
     Projectile,
-    Wall
+    Wall,
+    WaterGunEntity
 } from "./mapEntities.js";
 import Boss from "./boss.js";
 
@@ -101,7 +102,7 @@ export default class Map {
                     ctx.rect(canvasX, canvasY, cellsize, cellsize);
                     ctx.fill();
                 }
-                if (cell instanceof Player || cell instanceof Boss) {
+                if (cell instanceof Player || cell instanceof Boss || cell instanceof WaterGunEntity) {
                     if (cell.x == undefined && cell.y == undefined) {
                         cell.x = x + 0.5; //could do with work
                         cell.y = y + 0.5;
@@ -121,6 +122,10 @@ export default class Map {
                 newEntities.push(e);
             }
             if (e instanceof Boss) {
+                e.draw(cellsize * e.x, cellsize * e.y);
+                newEntities.push(e);
+            }
+            if (e instanceof WaterGunEntity) {
                 e.draw(cellsize * e.x, cellsize * e.y);
                 newEntities.push(e);
             }

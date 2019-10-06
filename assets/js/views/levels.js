@@ -3,7 +3,8 @@ import {
     PlayableArea,
     Wall,
     Gun,
-    L1BossGun
+    L1BossGun,
+    WaterGunEntity
 } from "../class/mapEntities.js";
 import Map from "../class/map.js";
 import {
@@ -34,6 +35,8 @@ let Level1 = {
 
         let w = new Wall();
 
+        let g = new WaterGunEntity();
+
         return new Map([
             [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],
             [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
@@ -41,7 +44,7 @@ let Level1 = {
             [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
             [w, s, s, s, s, w, s, s, s, w, w, w, w, w, s, s, s, s, s, w],
             [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-            [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
+            [w, s, s, s, s, w, s, s, s, s, s, s, g, s, s, s, s, s, s, w],
             [w, s, s, s, s, w, s, s, p, s, s, s, s, s, s, s, s, s, s, w],
             [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
             [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],

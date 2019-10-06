@@ -40,6 +40,7 @@ export default class Player extends PlayableArea {
             frames.push(frameimg);
         });
         this.spriteAnimation = new Animation(frames, 0.5);
+        this.dednoise = new Audio("./assets/audio/soundFx/Player_Death.mp3");
     }
     click(e) {
         //check what is held in hand first
@@ -55,7 +56,8 @@ export default class Player extends PlayableArea {
         this.currentHealth -= damage;
         if (this.currentHealth <= 0) {
             this.currentHealth = 0;
-            console.log("YOU DIED NOOB");
+            let noise = this.dednoise.cloneNode();
+            noise.play();
         }
     }
     keyDown(e) {

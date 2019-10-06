@@ -11,8 +11,20 @@ export class PlayableArea {
 }
 
 export class Wall {
-    draw() {
 
+}
+
+export class WaterGunEntity extends PlayableArea {
+    constructor() {
+        super();
+        this.x = undefined;
+        this.y = undefined;
+        let image = new Image();
+        image.src = "./assets/sprites/weapons/water_gun/water_gun_side.png";
+        this.image = image;
+    }
+    draw(x, y) {
+        ctx.drawImage(this.image, x, y, 20, 20);
     }
 }
 
