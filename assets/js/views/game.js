@@ -1,64 +1,30 @@
 import View from "./view.js";
-import Map from "../class/map.js";
-import Player from "../class/player.js";
-import {
-    PlayableArea,
-    Wall
-} from "../class/mapEntities.js";
-import Boss from "../class/boss.js";
 import HUD from "../class/hud.js";
-
-let p = new Player({
-    height: 1.2,
-    width: 1.2,
-    health: 100
-});
-
-let b = new Boss({
-    height: 2,
-    width: 2,
-    health: 1000
-});
+import {
+    canvas,
+    ctx,
+    gameloop,
+    deathScreen,
+    currentLevel,
+    player
+} from "../game.js";
 
 let hud = new HUD();
 
-//s for space - Jack
-let s = new PlayableArea();
-
-let w = new Wall();
-
-
-let level = new Map([
-    [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, w, w, w, w, w, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, p, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, w, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, b, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, s, w],
-    [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]
-]);
-
-p.speed = level.height * 0.25;
+//p.speed = currentLevel.height * 0.25;
 
 export default class Game extends View {
     static draw() {
         super.draw();
-        level.draw();
+        currentLevel.draw();
         hud.draw();
+        if (player.currentHealth == 0) {
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1;
+            cancelAnimationFrame(gameloop);
+            deathScreen.draw();
+        }
     }
-}
-
-export {
-    p as player,
-    level
 }

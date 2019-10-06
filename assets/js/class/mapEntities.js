@@ -1,10 +1,8 @@
 import {
     deltaTime,
-    ctx
+    ctx,
+    currentLevel
 } from "../game.js";
-import {
-    level
-} from "../views/game.js";
 
 export class PlayableArea {
 
@@ -44,9 +42,9 @@ export class Projectile {
         this.height = 0.15;
         ctx.fillStyle = "black";
         ctx.beginPath();
-        let cellsize = Math.floor(ctx.canvas.width / level.width);
-        if (Math.floor(ctx.canvas.height / level.height) < Math.floor(ctx.canvas.width / level.width)) {
-            cellsize = Math.floor(ctx.canvas.height / level.height);
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
         }
         ctx.rect(x, y, this.width * cellsize, this.height * cellsize);
         ctx.fill();
@@ -59,7 +57,7 @@ export class Gun {
         this.damage = damage ? damage : 1;
     }
     fire(x, y, dir, sender) {
-        level.entities.push(new Projectile({
+        currentLevel.entities.push(new Projectile({
             x,
             y,
             dir,

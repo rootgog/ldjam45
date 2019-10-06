@@ -1,6 +1,5 @@
 import {
     ctx,
-    canvas,
     Wall_Texture
 } from "../game.js";
 import Player from "./player.js";
@@ -136,7 +135,6 @@ export default class Map {
                         } else if (c instanceof Player) {
                             c.damage(e.damage);
                         } else if (c instanceof Boss) {
-                            console.log(c.currentHealth);
                             c.damage(e.damage);
                         } else {
                             newEntities.push(e);

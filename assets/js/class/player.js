@@ -1,16 +1,14 @@
 import {
     ctx,
     deltaTime,
-    mouse
+    mouse,
+    currentLevel
 } from "../game.js";
 import {
     PlayableArea,
     Wall,
     Gun
 } from "./mapEntities.js";
-import {
-    level
-} from "../views/game.js";
 
 export default class Player extends PlayableArea {
     constructor({
@@ -35,9 +33,9 @@ export default class Player extends PlayableArea {
     }
     click(e) {
         //check what is held in hand first
-        let cellsize = Math.floor(ctx.canvas.width / level.width);
-        if (Math.floor(ctx.canvas.height / level.height) < Math.floor(ctx.canvas.width / level.width)) {
-            cellsize = Math.floor(ctx.canvas.height / level.height);
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
         }
         let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
         //this.speed needs to be projectile speed
@@ -96,7 +94,7 @@ export default class Player extends PlayableArea {
         let y = this.y;
         this.x += this.right * deltaTime;
         this.y += this.up * deltaTime;
-        let collisions = level.collisions(this);
+        let collisions = currentLevel.collisions(this);
         collisions.forEach(c => {
             if (c instanceof Wall) {
                 this.x = x;
@@ -106,9 +104,9 @@ export default class Player extends PlayableArea {
 
     }
     draw(x, y) {
-        let cellsize = Math.floor(ctx.canvas.width / level.width);
-        if (Math.floor(ctx.canvas.height / level.height) < Math.floor(ctx.canvas.width / level.width)) {
-            cellsize = Math.floor(ctx.canvas.height / level.height);
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
         }
         ctx.fillStyle = "black";
         ctx.beginPath();
