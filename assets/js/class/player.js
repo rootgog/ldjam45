@@ -7,7 +7,8 @@ import {
 import {
     PlayableArea,
     Wall,
-    Gun
+    Gun,
+    WaterGun
 } from "./mapEntities.js";
 import Animation from "./animation.js";
 
@@ -27,7 +28,7 @@ export default class Player extends PlayableArea {
         this.speed = 6.5;
         this.up = 0;
         this.right = 0;
-        this.weapon = new Gun(50);
+        this.weapon = new WaterGun();
         document.addEventListener("keydown", this.keyDown.bind(this));
         document.addEventListener("keyup", this.keyUp.bind(this));
         document.addEventListener("click", this.click.bind(this));
@@ -37,7 +38,7 @@ export default class Player extends PlayableArea {
             let frameimg = new Image();
             frameimg.src = `./assets/sprites/player/walk_cycle/${frame}.png`;
             frames.push(frameimg);
-        })
+        });
         this.spriteAnimation = new Animation(frames, 0.5);
     }
     click(e) {
@@ -49,7 +50,6 @@ export default class Player extends PlayableArea {
         let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
         //this.speed needs to be projectile speed
         this.weapon.fire(this.x + 0.6, this.y + 0.9, a2m, this);
-
     }
     damage(damage) {
         this.currentHealth -= damage;

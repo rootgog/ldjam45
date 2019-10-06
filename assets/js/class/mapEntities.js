@@ -1,7 +1,9 @@
 import {
     deltaTime,
     ctx,
-    currentLevel
+    currentLevel,
+    player,
+    currentBoss
 } from "../game.js";
 
 export class PlayableArea {
@@ -21,7 +23,10 @@ export class Projectile {
         dir,
         speed,
         sender,
-        damage
+        damage,
+        image = null,
+        width = 0.15,
+        height = 0.15
     }) {
         this.x = x;
         this.y = y;
@@ -32,29 +37,34 @@ export class Projectile {
             x: speed * Math.cos(dir * Math.PI / 180),
             y: speed * Math.sin(dir * Math.PI / 180)
         }
+        this.image = image;
+        this.width = width;
+        this.height = height;
     }
     updatePosition() {
         this.x -= this.speed.x * deltaTime;
         this.y -= this.speed.y * deltaTime;
     }
     draw(x, y) {
-        this.width = 0.15;
-        this.height = 0.15;
-        ctx.fillStyle = "black";
-        ctx.beginPath();
         let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
         if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
             cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
         }
-        ctx.rect(x, y, this.width * cellsize, this.height * cellsize);
-        ctx.fill();
+        if (this.image == null) {
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.rect(x, y, this.width * cellsize, this.height * cellsize);
+            ctx.fill();
+        } else {
+            ctx.drawImage(this.image, x, y, this.width * cellsize, this.height * cellsize);
+        }
     }
 }
 
 export class Gun {
-    constructor(damage) {
-        this.speed = 5;
+    constructor(damage, speed = 5) {
         this.damage = damage ? damage : 1;
+        this.speed = speed;
     }
     fire(x, y, dir, sender) {
         currentLevel.entities.push(new Projectile({
@@ -63,7 +73,48 @@ export class Gun {
             dir,
             speed: this.speed,
             sender,
-            damage: this.damage
+            damage: this.damage,
+            image: this.image,
+            width: this.projectileWidth,
+            height: this.projectileHeight
         }));
+    }
+}
+
+export class WaterGun extends Gun {
+    constructor() {
+        super(35, 5);
+        this.shotSound = new Audio("./assets/audio/soundFx/Watergun.mp3");
+        let image = new Image();
+        image.src = "./assets/sprites/projectiles/watersplash.png";
+        this.image = image;
+        this.projectileHeight = .4;
+        this.projectileWidth = .4;
+    }
+    fire(x, y, dir, sender) {
+        if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
+            super.fire(x, y, dir, sender);
+            let sound = this.shotSound.cloneNode();
+            sound.play();
+        }
+    }
+}
+
+export class L1BossGun extends Gun {
+    constructor() {
+        super(45, 8);
+        this.shotSound = new Audio("./assets/audio/soundFx/Fireball.mp3");
+        let image = new Image();
+        image.src = "./assets/sprites/projectiles/fireball.png";
+        this.image = image;
+        this.projectileHeight = .8;
+        this.projectileWidth = .8;
+    }
+    fire(x, y, dir, sender) {
+        if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
+            super.fire(x, y, dir, sender);
+            let sound = this.shotSound.cloneNode();
+            sound.play();
+        }
     }
 }
