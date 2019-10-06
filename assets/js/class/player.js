@@ -148,5 +148,9 @@ export default class Player extends PlayableArea {
         ctx.drawImage(this.spriteAnimation.current(), x, y, this.width * cellsize, this.height * cellsize);
         ctx.resetTransform();
         ctx.restore();
+
+        if (this.weapon) {
+            this.weapon.draw(x, y, rotation);
+        }
     }
 }

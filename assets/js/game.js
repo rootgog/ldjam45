@@ -4,6 +4,7 @@ import {
     Level1
 } from "./views/levels.js";
 import Player from "./class/player.js";
+import MainMenu from "./views/mainmenu.js";
 
 //canvas setup
 let canvas = document.querySelector(".app > canvas");
@@ -38,12 +39,13 @@ let currentMap = Level1;
 let currentLevel = currentMap.map();
 let currentBoss = currentMap.boss;
 
-let view = Game;
+let view = MainMenu;
 
 //start gameloop
 let gameloop;
 let deathScreen;
 let winScreen;
+let mainMenuScreen;
 
 window.onload = (e) => {
     ctx.canvas.width = window.innerWidth;
@@ -130,6 +132,28 @@ window.onload = (e) => {
         text: "Success!"
     });
 
+    mainMenuScreen = new Menu();
+    mainMenuScreen.addBtn({
+        x: currentLevel.width / 2 * cellsize - 75,
+        y: currentLevel.height / 2 * cellsize - 125,
+        height: 50,
+        width: 150,
+        text: "Play!",
+        clickHandler: () => {
+            view = Game;
+            renderFrame();
+        },
+        style: {
+            background: "green"
+        }
+    });
+    mainMenuScreen.addText({
+        x: currentLevel.width / 2 * cellsize - 125,
+        y: currentLevel.height / 2 * cellsize - 25,
+        width: 500,
+        font: "54px Arial",
+        text: "Ludum Dare 45"
+    });
     renderFrame();
 }
 
@@ -156,6 +180,7 @@ export {
     view,
     Wall_Texture,
     deathScreen,
+    mainMenuScreen,
     winScreen,
     currentLevel,
     currentBoss,

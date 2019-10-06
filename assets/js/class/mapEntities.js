@@ -74,10 +74,22 @@ export class Gun {
             speed: this.speed,
             sender,
             damage: this.damage,
-            image: this.image,
+            image: this.projectileImage,
             width: this.projectileWidth,
             height: this.projectileHeight
         }));
+    }
+    draw(x, y, rotation) {
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
+        }
+        ctx.translate((x + ((this.weaponWidth * cellsize) / 2)), (y + ((this.weaponHeight * cellsize) / 2)));
+        ctx.rotate((rotation + 180) * Math.PI / 180);
+        ctx.translate(-(x + ((this.weaponWidth * cellsize) / 2)), -(y + ((this.weaponHeight * cellsize) / 2)));
+        ctx.drawImage(this.weaponImage, x, y - 10, this.weaponWidth * cellsize, this.weaponHeight * cellsize);
+        ctx.resetTransform();
+        ctx.restore();
     }
 }
 
@@ -85,9 +97,14 @@ export class WaterGun extends Gun {
     constructor() {
         super(35, 5);
         this.shotSound = new Audio("./assets/audio/soundFx/Watergun.mp3");
-        let image = new Image();
-        image.src = "./assets/sprites/projectiles/watersplash.png";
-        this.image = image;
+        let pimage = new Image();
+        pimage.src = "./assets/sprites/projectiles/watersplash.png";
+        this.projectileImage = pimage;
+        let wimage = new Image();
+        wimage.src = "./assets/sprites/weapons/water_gun/water_gun_top.png";
+        this.weaponImage = wimage;
+        this.weaponWidth = .4;
+        this.weaponHeight = 1;
         this.projectileHeight = .4;
         this.projectileWidth = .4;
     }
@@ -106,7 +123,7 @@ export class L1BossGun extends Gun {
         this.shotSound = new Audio("./assets/audio/soundFx/Fireball.mp3");
         let image = new Image();
         image.src = "./assets/sprites/projectiles/fireball.png";
-        this.image = image;
+        this.projectileImage = image;
         this.projectileHeight = .8;
         this.projectileWidth = .8;
     }
