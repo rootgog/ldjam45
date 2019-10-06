@@ -37,6 +37,10 @@ export default class Boss extends PlayableArea {
         ctx.beginPath();
         ctx.rect(x, y, this.width * cellsize, this.height * cellsize);
         ctx.fill();
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.rect(x - 10, y - 10, ((this.width * cellsize) + 20) * (this.currentHealth / this.health), 5);
+        ctx.fill();
     }
     attack() {
         let cellsize = Math.floor(ctx.canvas.width / level.width);

@@ -9,7 +9,7 @@ import Boss from "../class/boss.js";
 import HUD from "../class/hud.js";
 
 let p = new Player({
-    height: 1.8,
+    height: 1.2,
     width: 1.2,
     health: 100
 });

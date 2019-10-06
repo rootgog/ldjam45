@@ -11,14 +11,15 @@ import {
 } from "./mapEntities.js";
 import Boss from "./boss.js";
 
-class Cell {
-    constructor(x, y, value) {
-        this.x = x;
-        this.y = y;
-        this.value = value;
+function rectCollision(rect1, rect2) {
+    if (rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.y + rect1.height > rect2.y) {
+        return true;
     }
+    return false;
 }
-
 export default class Map {
     constructor(map) {
         this.map = map;
@@ -31,6 +32,12 @@ export default class Map {
         if (Math.floor(ctx.canvas.height / this.height) < Math.floor(ctx.canvas.width / this.width)) {
             cellsize = Math.floor(ctx.canvas.height / this.height);
         }
+        let nodeParams = {
+            x: node.x * cellsize,
+            y: node.y * cellsize,
+            width: node.width * cellsize,
+            height: node.height * cellsize
+        }
         //return array of collisions with node
         let collisions = [];
         for (let y = 0; y < this.map.length; y++) {
@@ -38,19 +45,14 @@ export default class Map {
             for (let x = 0; x < row.length; x++) {
                 const cell = row[x];
                 if (cell != node) {
-                    const canvasX = x * cellsize;
-                    const canvasY = y * cellsize;
-                    const nodeCanvasX = (node.x * cellsize);
-                    const nodeCanvasY = (node.y * cellsize);
-
+                    let cellParams = {
+                        x: x * cellsize,
+                        y: y * cellsize,
+                        width: cellsize,
+                        height: cellsize
+                    }
                     if (!(cell instanceof PlayableArea)) {
-                        //could add instaceof circle rects for now
-
-                        //if needs to prove nothing is residing indise
-                        if (nodeCanvasX < canvasX + cellsize &&
-                            nodeCanvasX + (node.width * cellsize) > canvasX &&
-                            nodeCanvasY < canvasY + cellsize &&
-                            nodeCanvasY + (node.height * cellsize) > canvasY) {
+                        if (rectCollision(nodeParams, cellParams)) {
                             collisions.push(cell);
                         }
                     }
@@ -58,18 +60,16 @@ export default class Map {
             }
         }
         this.entities.forEach(e => {
-            const canvasX = e.x * cellsize;
-            const canvasY = e.y * cellsize;
-            const nodeCanvasX = (node.x * cellsize);
-            const nodeCanvasY = (node.y * cellsize);
+            let cellParams = {
+                x: e.x * cellsize,
+                y: e.y * cellsize,
+                width: e.width * cellsize,
+                height: e.height * cellsize
+            }
             //if needs to prove nothing is residing indise
             //this is broken fires loads of times?
             if (!(e.constructor == node.constructor)) {
-                if (nodeCanvasX < canvasX + cellsize &&
-                    nodeCanvasX + (node.width * cellsize) > canvasX &&
-                    nodeCanvasY < canvasY + cellsize &&
-                    nodeCanvasY + (node.height * cellsize) > canvasY) {
-                    //console.log(node);
+                if (rectCollision(nodeParams, cellParams)) {
                     if (node.hasOwnProperty("sender")) {
                         if (node.sender.constructor != e.constructor) {
                             collisions.push(e);
