@@ -43,6 +43,7 @@ let view = Game;
 //start gameloop
 let gameloop;
 let deathScreen;
+let winScreen;
 
 window.onload = (e) => {
     ctx.canvas.width = window.innerWidth;
@@ -78,6 +79,57 @@ window.onload = (e) => {
         font: "54px Arial",
         text: "You Died!"
     });
+
+    winScreen = new Menu();
+    winScreen.addBtn({
+        x: currentLevel.width / 2 * cellsize - 75,
+        y: currentLevel.height / 2 * cellsize - 25,
+        height: 50,
+        width: 150,
+        text: "replay",
+        clickHandler: () => {
+            console.log("yes");
+            player.currentHealth = 100;
+            player.x = undefined;
+            player.y = undefined;
+            currentBoss.currentHealth = currentBoss.health;
+            currentBoss.x = undefined;
+            currentBoss.y = undefined;
+            currentLevel.entities = [];
+            renderFrame();
+        },
+        style: {
+            background: "green"
+        }
+    });
+    winScreen.addBtn({
+        x: currentLevel.width / 2 * cellsize - 75,
+        y: currentLevel.height / 2 * cellsize - 125,
+        height: 50,
+        width: 150,
+        text: "next Level",
+        clickHandler: () => {
+            player.currentHealth = 100;
+            player.x = undefined;
+            player.y = undefined;
+            currentBoss.x = undefined;
+            currentBoss.y = undefined;
+            console.log("load next Level");
+            currentLevel.entities = [];
+            renderFrame();
+        },
+        style: {
+            background: "green"
+        }
+    });
+    winScreen.addText({
+        x: currentLevel.width / 2 * cellsize - 75,
+        y: currentLevel.height / 2 * cellsize - 25,
+        width: 300,
+        font: "54px Arial",
+        text: "Success!"
+    });
+
     renderFrame();
 }
 
@@ -104,6 +156,8 @@ export {
     view,
     Wall_Texture,
     deathScreen,
+    winScreen,
     currentLevel,
+    currentBoss,
     player
 };

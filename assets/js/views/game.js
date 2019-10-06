@@ -6,7 +6,9 @@ import {
     gameloop,
     deathScreen,
     currentLevel,
-    player
+    player,
+    currentBoss,
+    winScreen
 } from "../game.js";
 
 let hud = new HUD();
@@ -25,6 +27,14 @@ export default class Game extends View {
             ctx.globalAlpha = 1;
             cancelAnimationFrame(gameloop);
             deathScreen.draw();
+        }
+        if (currentBoss.currentHealth == 0) {
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1;
+            cancelAnimationFrame(gameloop);
+            winScreen.draw();
         }
     }
 }
