@@ -177,8 +177,8 @@ window.onload = (e) => {
         x: currentLevel.width / 2 * cellsize - 125,
         y: currentLevel.height / 2 * cellsize - 25,
         width: 500,
-        font: "54px Arial",
-        text: "Ludum Dare 45"
+        font: "32px Arial",
+        text: "Nothing"
     });
 
     gameComplete = new Menu();
@@ -205,7 +205,7 @@ window.onload = (e) => {
         y: currentLevel.height / 2 * cellsize - 25,
         width: 500,
         font: "30px Arial",
-        text: "Game Finished \n Thanks for playing! \n This was our first game jam \n the code is very messy since evrything was created from scratch :/ \n Programmer: George Bishop \n Designer: Jack Stalker"
+        text: "Game Finished \n Thanks for playing! \n This was our first game jam \n the code is very messy since we started with nothing ;) \n Programmer: George Bishop (@rootgog) \n Designer: Jack Stalker (@J_Stalker_Art)"
     });
 
     currentMenu = mainMenuScreen;
