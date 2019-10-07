@@ -1,6 +1,7 @@
 import {
     ctx,
-    mouse
+    mouse,
+    currentMenu
 } from "../game.js";
 
 export default class Menu {

@@ -8,7 +8,10 @@ import {
     currentLevel,
     player,
     currentBoss,
-    winScreen
+    winScreen,
+    levelindex,
+    levelsArr,
+    gameComplete
 } from "../game.js";
 
 let hud = new HUD();
@@ -34,7 +37,11 @@ export default class Game extends View {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalAlpha = 1;
             cancelAnimationFrame(gameloop);
-            winScreen.draw();
+            if (levelindex + 1 == levelsArr.length) {
+                gameComplete.draw();
+            } else {
+                winScreen.draw();
+            }
         }
     }
 }

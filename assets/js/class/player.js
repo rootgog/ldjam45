@@ -7,9 +7,10 @@ import {
 import {
     PlayableArea,
     Wall,
-    Gun,
     WaterGun,
-    WaterGunEntity
+    WaterGunEntity,
+    PlasmaGunEntity,
+    PlasmaGun
 } from "./mapEntities.js";
 import Animation from "./animation.js";
 
@@ -124,6 +125,11 @@ export default class Player extends PlayableArea {
                 this.weapon = new WaterGun();
                 c.pickedUp = true;
             }
+            if (c instanceof PlasmaGunEntity) {
+                this.weapon = new PlasmaGun();
+                c.pickedUp = true;
+            }
+            //add weapon instances here
         });
 
     }

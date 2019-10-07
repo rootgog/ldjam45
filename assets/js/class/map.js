@@ -1,6 +1,7 @@
 import {
     ctx,
-    Wall_Texture
+    Wall_Texture,
+    soundtrack
 } from "../game.js";
 import Player from "./player.js";
 import {
@@ -8,7 +9,8 @@ import {
     Projectile,
     Wall,
     WaterGunEntity,
-    WaterGun
+    WaterGun,
+    PlasmaGunEntity
 } from "./mapEntities.js";
 import Boss from "./boss.js";
 
@@ -103,7 +105,7 @@ export default class Map {
                     ctx.rect(canvasX, canvasY, cellsize, cellsize);
                     ctx.fill();
                 }
-                if (cell instanceof Player || cell instanceof Boss || cell instanceof WaterGunEntity) {
+                if (cell instanceof Player || cell instanceof Boss || cell instanceof WaterGunEntity || cell instanceof PlasmaGunEntity) {
                     if (cell.x == undefined && cell.y == undefined) {
                         cell.x = x + 0.5; //could do with work
                         cell.y = y + 0.5;
@@ -114,6 +116,8 @@ export default class Map {
                     ctx.drawImage(Wall_Texture, canvasX, canvasY, cellsize, cellsize);
                 }
             }
+            soundtrack.loop = true;
+            soundtrack.play();
         }
         let newEntities = [];
         this.entities.forEach(e => {
@@ -127,6 +131,12 @@ export default class Map {
                 newEntities.push(e);
             }
             if (e instanceof WaterGunEntity) {
+                if (!e.pickedUp) {
+                    e.draw(cellsize * e.x, cellsize * e.y);
+                    newEntities.push(e);
+                }
+            }
+            if (e instanceof PlasmaGunEntity) {
                 if (!e.pickedUp) {
                     e.draw(cellsize * e.x, cellsize * e.y);
                     newEntities.push(e);

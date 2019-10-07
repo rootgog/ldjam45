@@ -35,6 +35,27 @@ export class WaterGunEntity extends PlayableArea {
     }
 }
 
+export class PlasmaGunEntity extends PlayableArea {
+    constructor() {
+        super();
+        this.x = undefined;
+        this.y = undefined;
+        let image = new Image();
+        image.src = "./assets/sprites/weapons/plasma_gun/plasma_gun_side.png";
+        this.image = image;
+        this.pickedUp = false;
+        this.width = 1;
+        this.height = 1;
+    }
+    draw(x, y) {
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
+        }
+        ctx.drawImage(this.image, x, y, this.width * cellsize, this.height * cellsize);
+    }
+}
+
 export class Projectile {
     constructor({
         x,
@@ -99,6 +120,9 @@ export class Gun {
         }));
     }
     draw(x, y, rotation) {
+        if (this instanceof PlasmaGun) {
+            rotation = rotation + 180;
+        }
         let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
         if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
             cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
@@ -116,11 +140,37 @@ export class WaterGun extends Gun {
     constructor() {
         super(35, 5);
         this.shotSound = new Audio("./assets/audio/soundFx/Watergun.mp3");
+        this.shotSound.volume = 0.5;
         let pimage = new Image();
         pimage.src = "./assets/sprites/projectiles/watersplash.png";
         this.projectileImage = pimage;
         let wimage = new Image();
         wimage.src = "./assets/sprites/weapons/water_gun/water_gun_top.png";
+        this.weaponImage = wimage;
+        this.weaponWidth = .4;
+        this.weaponHeight = 1;
+        this.projectileHeight = .4;
+        this.projectileWidth = .4;
+    }
+    fire(x, y, dir, sender) {
+        if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
+            super.fire(x, y, dir, sender);
+            let sound = this.shotSound.cloneNode();
+            sound.play();
+        }
+    }
+}
+
+export class PlasmaGun extends Gun {
+    constructor() {
+        super(33335, 5);
+        this.shotSound = new Audio("./assets/audio/soundFx/plasma_2.mp3");
+        this.shotSound.volume = 0.5;
+        let pimage = new Image();
+        pimage.src = "./assets/sprites/projectiles/player_plasma.png";
+        this.projectileImage = pimage;
+        let wimage = new Image();
+        wimage.src = "./assets/sprites/weapons/plasma_gun/plasma_gun_top.png";
         this.weaponImage = wimage;
         this.weaponWidth = .4;
         this.weaponHeight = 1;
@@ -145,6 +195,26 @@ export class L1BossGun extends Gun {
         this.projectileImage = image;
         this.projectileHeight = .8;
         this.projectileWidth = .8;
+    }
+    fire(x, y, dir, sender) {
+        if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
+            super.fire(x, y, dir, sender);
+            let sound = this.shotSound.cloneNode();
+            sound.play();
+        }
+    }
+}
+
+export class L2BossGun extends Gun {
+    constructor() {
+        super(5, 10);
+        this.shotSound = new Audio("./assets/audio/soundFx/plasma_1.mp3");
+        this.shotSound.volume = 0.1;
+        let image = new Image();
+        image.src = "./assets/sprites/projectiles/robot_plasma.png";
+        this.projectileImage = image;
+        this.projectileHeight = .3;
+        this.projectileWidth = .3;
     }
     fire(x, y, dir, sender) {
         if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
