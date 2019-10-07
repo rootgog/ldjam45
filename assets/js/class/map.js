@@ -1,7 +1,8 @@
 import {
     ctx,
-    Wall_Texture,
-    soundtrack
+    soundtrack,
+    levelsArr,
+    levelindex
 } from "../game.js";
 import Player from "./player.js";
 import {
@@ -9,7 +10,6 @@ import {
     Projectile,
     Wall,
     WaterGunEntity,
-    WaterGun,
     PlasmaGunEntity
 } from "./mapEntities.js";
 import Boss from "./boss.js";
@@ -91,6 +91,7 @@ export default class Map {
         if (Math.floor(ctx.canvas.height / this.height) < Math.floor(ctx.canvas.width / this.width)) {
             cellsize = Math.floor(ctx.canvas.height / this.height);
         }
+        ctx.drawImage(levelsArr[levelindex].background, 0, 0, this.width * cellsize, this.height * cellsize);
         for (let y = 0; y < this.map.length; y++) {
             const row = this.map[y];
             for (let x = 0; x < row.length; x++) {
@@ -100,10 +101,10 @@ export default class Map {
                 const canvasX = x * cellsize;
                 const canvasY = y * cellsize;
                 if (cell instanceof PlayableArea) {
-                    ctx.fillStyle = "grey";
+                    /*ctx.fillStyle = "grey";
                     ctx.beginPath();
                     ctx.rect(canvasX, canvasY, cellsize, cellsize);
-                    ctx.fill();
+                    ctx.fill();*/
                 }
                 if (cell instanceof Player || cell instanceof Boss || cell instanceof WaterGunEntity || cell instanceof PlasmaGunEntity) {
                     if (cell.x == undefined && cell.y == undefined) {
@@ -113,7 +114,7 @@ export default class Map {
                     }
                 }
                 if (cell instanceof Wall) {
-                    ctx.drawImage(Wall_Texture, canvasX, canvasY, cellsize, cellsize);
+                    ctx.drawImage(cell.texture, canvasX, canvasY, cellsize, cellsize);
                 }
             }
             soundtrack.loop = true;

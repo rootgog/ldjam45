@@ -11,7 +11,11 @@ export class PlayableArea {
 }
 
 export class Wall {
-
+    constructor(texture) {
+        var Wall_Texture = new Image();
+        Wall_Texture.src = texture;
+        this.texture = Wall_Texture;
+    }
 }
 
 export class WaterGunEntity extends PlayableArea {

@@ -19,9 +19,6 @@ let mouse = {
     y: undefined
 }
 
-var Wall_Texture = new Image();
-Wall_Texture.src = "./assets/textures/Wall_Texture.png";
-
 
 document.addEventListener('mousemove', e => {
     var rect = canvas.getBoundingClientRect();
@@ -52,6 +49,7 @@ let mainMenuScreen;
 let currentMenu;
 let gameComplete;
 let soundtrack;
+let bgimage;
 
 window.onload = (e) => {
     ctx.canvas.width = window.innerWidth;
@@ -236,7 +234,6 @@ export {
     gameloop,
     mouse,
     view,
-    Wall_Texture,
     deathScreen,
     mainMenuScreen,
     winScreen,

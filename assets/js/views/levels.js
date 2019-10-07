@@ -2,7 +2,6 @@ import Boss from "../class/boss.js";
 import {
     PlayableArea,
     Wall,
-    Gun,
     L1BossGun,
     WaterGunEntity,
     L2BossGun,
@@ -27,6 +26,12 @@ l2bframeimg.src = "./assets/sprites/boss/robot_boss/robot_boss_idle.png";
 
 let l2BossAnim = new Animation([l2bframeimg], 0.4);
 
+let l1bg = new Image();
+l1bg.src = "./assets/sprites/backgrounds/round_1_background.png";
+
+let l2bg = new Image();
+l2bg.src = "./assets/sprites/backgrounds/round_2_background.png";
+
 let Level1 = {
     boss: new Boss({
         height: 3,
@@ -37,12 +42,13 @@ let Level1 = {
         attackSpeed: 0.4
     }),
     soundtrack: new Audio("./assets/audio/soundtrack/soundtrack_2.mp3"),
+    background: l1bg,
     map: () => {
         let b = Level1.boss;
         //s for space - Jack
         let s = new PlayableArea();
 
-        let w = new Wall();
+        let w = new Wall("./assets/textures/Wall_Texture.png");
 
         let g = new WaterGunEntity();
 
@@ -87,12 +93,13 @@ let level2 = {
         attackSpeed: 0.1
     }),
     soundtrack: new Audio("./assets/audio/soundtrack/soundtrack_1.mp3"),
+    background: l2bg,
     map: () => {
         let b = level2.boss;
         //s for space - Jack
         let s = new PlayableArea();
 
-        let w = new Wall();
+        let w = new Wall("./assets/textures/Crate_Texture.png");
 
         let g = new PlasmaGunEntity();
 
