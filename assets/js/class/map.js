@@ -7,7 +7,8 @@ import {
     PlayableArea,
     Projectile,
     Wall,
-    WaterGunEntity
+    WaterGunEntity,
+    WaterGun
 } from "./mapEntities.js";
 import Boss from "./boss.js";
 
@@ -126,8 +127,10 @@ export default class Map {
                 newEntities.push(e);
             }
             if (e instanceof WaterGunEntity) {
-                e.draw(cellsize * e.x, cellsize * e.y);
-                newEntities.push(e);
+                if (!e.pickedUp) {
+                    e.draw(cellsize * e.x, cellsize * e.y);
+                    newEntities.push(e);
+                }
             }
             if (e instanceof Projectile) {
                 e.updatePosition();

@@ -22,9 +22,16 @@ export class WaterGunEntity extends PlayableArea {
         let image = new Image();
         image.src = "./assets/sprites/weapons/water_gun/water_gun_side.png";
         this.image = image;
+        this.pickedUp = false;
+        this.width = 1;
+        this.height = 1;
     }
     draw(x, y) {
-        ctx.drawImage(this.image, x, y, 20, 20);
+        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
+        }
+        ctx.drawImage(this.image, x, y, this.width * cellsize, this.height * cellsize);
     }
 }
 

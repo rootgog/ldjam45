@@ -8,7 +8,8 @@ import {
     PlayableArea,
     Wall,
     Gun,
-    WaterGun
+    WaterGun,
+    WaterGunEntity
 } from "./mapEntities.js";
 import Animation from "./animation.js";
 
@@ -28,7 +29,7 @@ export default class Player extends PlayableArea {
         this.speed = 6.5;
         this.up = 0;
         this.right = 0;
-        this.weapon = new WaterGun();
+        this.weapon = null;
         document.addEventListener("keydown", this.keyDown.bind(this));
         document.addEventListener("keyup", this.keyUp.bind(this));
         document.addEventListener("click", this.click.bind(this));
@@ -43,14 +44,16 @@ export default class Player extends PlayableArea {
         this.dednoise = new Audio("./assets/audio/soundFx/Player_Death.mp3");
     }
     click(e) {
-        //check what is held in hand first
-        let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
-        if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
-            cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
+        if (this.weapon !== null) {
+            //check what is held in hand first
+            let cellsize = Math.floor(ctx.canvas.width / currentLevel.width);
+            if (Math.floor(ctx.canvas.height / currentLevel.height) < Math.floor(ctx.canvas.width / currentLevel.width)) {
+                cellsize = Math.floor(ctx.canvas.height / currentLevel.height);
+            }
+            let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
+            //this.speed needs to be projectile speed
+            this.weapon.fire(this.x + 0.6, this.y + 0.9, a2m, this);
         }
-        let a2m = Math.atan2((this.y * cellsize) - mouse.y, (this.x * cellsize) - mouse.x) * 180 / Math.PI;
-        //this.speed needs to be projectile speed
-        this.weapon.fire(this.x + 0.6, this.y + 0.9, a2m, this);
     }
     damage(damage) {
         this.currentHealth -= damage;
@@ -116,6 +119,10 @@ export default class Player extends PlayableArea {
             if (c instanceof Wall) {
                 this.x = x;
                 this.y = y;
+            }
+            if (c instanceof WaterGunEntity) {
+                this.weapon = new WaterGun();
+                c.pickedUp = true;
             }
         });
 
