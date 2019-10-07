@@ -31,7 +31,7 @@ let Level1 = {
     boss: new Boss({
         height: 3,
         width: 4.5,
-        health: 1000,
+        health: 2000,
         weapon: new L1BossGun(),
         animation: l1Boss,
         attackSpeed: 0.4

@@ -163,7 +163,7 @@ export class WaterGun extends Gun {
 
 export class PlasmaGun extends Gun {
     constructor() {
-        super(33335, 5);
+        super(50, 5);
         this.shotSound = new Audio("./assets/audio/soundFx/plasma_2.mp3");
         this.shotSound.volume = 0.5;
         let pimage = new Image();
