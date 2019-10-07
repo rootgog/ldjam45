@@ -188,7 +188,7 @@ export class PlasmaGun extends Gun {
 
 export class L1BossGun extends Gun {
     constructor() {
-        super(45, 8);
+        super(10, 15);
         this.shotSound = new Audio("./assets/audio/soundFx/Fireball.mp3");
         let image = new Image();
         image.src = "./assets/sprites/projectiles/fireball.png";
@@ -209,7 +209,6 @@ export class L2BossGun extends Gun {
     constructor() {
         super(5, 10);
         this.shotSound = new Audio("./assets/audio/soundFx/plasma_1.mp3");
-        this.shotSound.volume = 0.1;
         let image = new Image();
         image.src = "./assets/sprites/projectiles/robot_plasma.png";
         this.projectileImage = image;
@@ -220,6 +219,7 @@ export class L2BossGun extends Gun {
         if (player.currentHealth > 0 && currentBoss.currentHealth > 0) {
             super.fire(x, y, dir, sender);
             let sound = this.shotSound.cloneNode();
+            sound.volume = 0.1;
             sound.play();
         }
     }

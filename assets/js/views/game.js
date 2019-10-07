@@ -32,8 +32,8 @@ export default class Game extends View {
             deathScreen.draw();
         }
         if (currentBoss.currentHealth == 0) {
-            ctx.globalAlpha = 0.5;
-            ctx.fillStyle = "grey";
+            ctx.globalAlpha = 0.9;
+            ctx.fillStyle = "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalAlpha = 1;
             cancelAnimationFrame(gameloop);

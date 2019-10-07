@@ -31,11 +31,16 @@ export default class Menu {
             ctx.fillText(element.text, element.x + element.width / 2, element.y + element.height / 2, element.width);
         });
         this.text.forEach(element => {
-            ctx.font = element.font;
-            ctx.textAlign = "center";
-            ctx.fillStyle = "white";
-            ctx.beginPath();
-            ctx.fillText(element.text, element.x + element.width / 4, element.y / 2, element.width);
+            let lines = element.text.split("\n");
+            let currentoffset = 0;
+            lines.forEach(line => {
+                ctx.font = element.font;
+                ctx.textAlign = "center";
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.fillText(line, element.x + element.width / 4, element.y / 2 + currentoffset, element.width);
+                currentoffset += 30;
+            });
         });
     }
     addBtn({

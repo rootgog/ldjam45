@@ -74,6 +74,7 @@ window.onload = (e) => {
             player.weapon = null;
             currentBoss.x = undefined;
             currentBoss.y = undefined;
+            clearInterval(currentBoss.attackCycle);
             //set watergun to undefined x,y and pickedup to false
             currentLevel.entities = [];
             renderFrame();
@@ -102,6 +103,8 @@ window.onload = (e) => {
             player.x = undefined;
             player.y = undefined;
             currentBoss.currentHealth = currentBoss.health;
+            clearInterval(currentBoss.attackCycle);
+            currentBoss.attackCycle = null;
             currentBoss.x = undefined;
             currentBoss.y = undefined;
             currentLevel = levelsArr[levelindex].map();
@@ -120,6 +123,7 @@ window.onload = (e) => {
         text: "next Level",
         clickHandler: () => {
             if (view == Game && levelindex < levelsArr.length - 1) {
+                soundtrack.pause();
                 player.currentHealth = 100;
                 player.x = undefined;
                 player.y = undefined;
@@ -182,13 +186,14 @@ window.onload = (e) => {
     gameComplete = new Menu();
     gameComplete.addBtn({
         x: currentLevel.width / 2 * cellsize - 75,
-        y: currentLevel.height / 2 * cellsize - 125,
+        y: (currentLevel.height / 2 * cellsize) + 100,
         height: 50,
         width: 150,
         text: "MainMenu",
         clickHandler: () => {
             if (view == Game && levelindex + 1 == levelsArr.length && currentBoss.currentHealth == 0) {
                 levelindex = 0;
+                currentLevel = levelsArr[levelindex];
                 view = MainMenu;
                 renderFrame();
             }
@@ -201,8 +206,8 @@ window.onload = (e) => {
         x: currentLevel.width / 2 * cellsize - 125,
         y: currentLevel.height / 2 * cellsize - 25,
         width: 500,
-        font: "54px Arial",
-        text: "Game Finished \n Thanks for playing! \n This was our first game jam and the code is very messy since evrything was created from scratch \n Programmer: George Bishop \n Designer: Jack Stalker"
+        font: "30px Arial",
+        text: "Game Finished \n Thanks for playing! \n This was our first game jam \n the code is very messy since evrything was created from scratch :/ \n Programmer: George Bishop \n Designer: Jack Stalker"
     });
 
     currentMenu = mainMenuScreen;
